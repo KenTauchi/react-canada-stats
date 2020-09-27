@@ -17,23 +17,6 @@ class App extends Component {
     chart.geodataSource.url =
       "https://www.amcharts.com/lib/4/geodata/json/canadaLow.json";
 
-    // chart.geodataSource.events.on("parseended", function (ev) {
-    //   let data = [];
-    //   for (var i = 0; i < ev.target.data.features.length; i++) {
-    //     data.push({
-    //       id: ev.target.data.features[i].id,
-    //       value: Math.round(Math.random() * 10000),
-    //     });
-    //   }
-    //   polygonSeries.data = data;
-    // });
-
-    // const fetchData = (url) => {
-    //   fetch(url)
-    //     .then((response) => response.json())
-    //     .catch((error) => console.log("error", error));
-    // };
-
     let provDataArr = [];
     fetch("https://api.covid19tracker.ca/provinces")
       .then((response) => response.json())
