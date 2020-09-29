@@ -1,6 +1,6 @@
 {
-  "homepage": "https://kentauchi.github.io/react-canada-stats/",
-  "name": "canada-waste-map",
+  "homepage": ".",
+  "name": "canada-stats",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
