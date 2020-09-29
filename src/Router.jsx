@@ -5,7 +5,7 @@ import { Home } from "./templates";
 const Router = () => {
   return (
     <Switch>
-      <Route exact path="react-canada-stats(/)?" component={Home} />
+      <Route exact path="/react-canada-stats(/)?" component={Home} />
     </Switch>
   );
 };
