@@ -8,7 +8,8 @@ export const DataSetReducer = (state = initialState.dataSet, action) => {
     case Actions.DATA_IMPORT:
       return {
         ...state,
-        dataSet: addChartData(action.payload),
+        desc: action.payload.desc,
+        setData: addChartData(action.payload.data),
       };
 
     default:

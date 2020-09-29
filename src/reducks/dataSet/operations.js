@@ -7,7 +7,7 @@ import { push } from "connected-react-router";
 
 // am4core.useTheme(am4themes_animated);
 
-export const dataImport = () => {
+export const dataPopulationImport = () => {
   return async (dispatch, getState) => {
     const provs = await fetch("https://api.covid19tracker.ca/provinces")
       .then((response) => response.json())
@@ -26,6 +26,42 @@ export const dataImport = () => {
       provDataArr.push(provObj);
     });
 
-    dispatch(dataImportAction(provDataArr));
+    dispatch(
+      dataImportAction({
+        desc: "Population Map (*hover over map)",
+        data: provDataArr,
+      })
+    );
+  };
+};
+
+export const dataDeathTollImport = () => {
+  return async (dispatch, getState) => {
+    const provs = await fetch(
+      "https://services9.arcgis.com/pJENMVYPQqZZe20v/arcgis/rest/services/Join_Features_to_Enriched_Population_Case_Data_By_Province_Polygon/FeatureServer/0/query?where=1%3D1&outFields=NAME,Abbreviation,Deaths&returnGeometry=false&outSR=4326&f=json"
+    )
+      .then((response) => response.json())
+      .catch(() => null);
+
+    let provDataArr = [];
+
+    provs.features.forEach((prov) => {
+      let provId = "CA-" + prov.attributes.Abbreviation;
+      let provVal = prov.attributes.Deaths;
+
+      let provObj = {
+        id: provId,
+        value: provVal,
+      };
+
+      provDataArr.push(provObj);
+    });
+
+    dispatch(
+      dataImportAction({
+        desc: "COVID Death Toll Map (*hover over map)",
+        data: provDataArr,
+      })
+    );
   };
 };

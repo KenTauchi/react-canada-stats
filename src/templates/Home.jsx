@@ -1,27 +1,36 @@
 import React from "react";
-// import "./App.css";
-
-// import * as am4core from "@amcharts/amcharts4/core";
-// import * as am4maps from "@amcharts/amcharts4/maps";
-// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { dataImportAction } from "../reducks/dataSet/action";
+import {
+  dataPopulationImport,
+  dataDeathTollImport,
+} from "../reducks/dataSet/operations";
 
-import { dataImport } from "../reducks/dataSet/operations";
+import { getDesc } from "../reducks/dataSet/selectors";
 
 // am4core.useTheme(am4themes_animated);
 
 function App() {
   const dispatch = useDispatch();
   const selector = useSelector((state) => state);
+  const dataDesc = getDesc(selector);
   console.log(selector);
 
   return (
-    <div id="chartdiv" style={{ width: "100%", height: "500px" }}>
-      <button onClick={() => dispatch(dataImport())}>Show Map</button>
-      Source: https://github.com/bapex/react-amcharts-map/blob/master/src/App.js
+    <div>
+      <div id="chartdiv" style={{ width: "100%", height: "500px" }}></div>
+      <button onClick={() => dispatch(dataPopulationImport())}>
+        Show Poplulation Map
+      </button>
+      <button onClick={() => dispatch(dataDeathTollImport())}>
+        Show Covid Death Toll
+      </button>
+      <p>
+        amChart Source:
+        https://github.com/bapex/react-amcharts-map/blob/master/src/App.js
+      </p>
+      <h1>{dataDesc}</h1>
     </div>
   );
 }
