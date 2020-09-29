@@ -9,7 +9,10 @@ import { push } from "connected-react-router";
 
 export const dataPopulationImport = () => {
   return async (dispatch, getState) => {
-    const provs = await fetch("https://api.covid19tracker.ca/provinces")
+    const provs = await fetch(
+      "https://cors-anywhere.herokuapp.com/" +
+        "https://api.covid19tracker.ca/provinces"
+    )
       .then((response) => response.json())
       .catch(() => null);
 
