@@ -1,6 +1,6 @@
 const initialState = {
   dataSet: {
-    desc: "Please click the button to display the map",
+    desc: "Please click the button to show data",
     data: "",
   },
 };

@@ -1,7 +1,7 @@
 import * as Actions from "./action";
 import initialState from "../store/initialState";
 
-import { addChartData } from "./utils";
+// import { addChartData } from "./utils";
 
 export const DataSetReducer = (state = initialState.dataSet, action) => {
   switch (action.type) {
@@ -9,7 +9,7 @@ export const DataSetReducer = (state = initialState.dataSet, action) => {
       return {
         ...state,
         desc: action.payload.desc,
-        setData: addChartData(action.payload.data),
+        data: action.payload.data,
       };
 
     default:
