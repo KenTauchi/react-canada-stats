@@ -88,20 +88,9 @@ function App() {
   let hs = polygonTemplate.states.create("hover");
   hs.properties.fill = chart.colors.getIndex(1).brighten(-0.5);
 
-  // chart.current = chart;
-  // return () => {
-  //   chart.dispose();
-  // };
-
-  // componentDidUpdate(oldProps) {
-  //   if (oldProps.paddingRight !== this.props.paddingRight) {
-  //     this.chart.paddingRight = this.props.paddingRight;
-  //   }
-  // };
-
   return (
     <div>
-      <div id="chartdiv" style={{ width: "100%", height: "500px" }}></div>
+      <div id="chartdiv" style={{ width: "80%", height: "400px" }}></div>
       <button onClick={() => dispatch(dataPopulationImport())}>
         Show Poplulation Map
       </button>
