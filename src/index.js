@@ -13,6 +13,8 @@ import * as History from "history";
 const history = History.createBrowserHistory();
 export const store = createStore(history);
 
+//  history contains an info like url path the browser is currently showing and was showing before.
+
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>

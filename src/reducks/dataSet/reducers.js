@@ -16,3 +16,9 @@ export const DataSetReducer = (state = initialState.dataSet, action) => {
       return state;
   }
 };
+
+
+// get data from action and decide how to change data in store.
+// -> manager for the state in Store
+
+// According to the action type, reducer decides how to change the state.

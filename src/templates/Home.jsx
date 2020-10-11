@@ -1,13 +1,16 @@
 import React from "react";
 
+import DataTable from "../components/dataTable/DataTable"
 import { useDispatch, useSelector } from "react-redux";
+import { getDesc, getData } from "../reducks/dataSet/selectors"
 
 import {
   dataPopulationImport,
   dataDeathTollImport,
 } from "../reducks/dataSet/operations";
 
-import { getDesc, getData } from "../reducks/dataSet/selectors";
+import { clickGet } from "../reducks/tableData/action"
+
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
@@ -18,12 +21,16 @@ am4core.useTheme(am4themes_animated);
 function App() {
   const dispatch = useDispatch();
   const selector = useSelector((state) => state);
+// you access to the current state with this Hooks.
+
   const dataDesc = getDesc(selector);
   const dataData = getData(selector);
   console.log(selector);
 
   // Create map instance
   let chart = am4core.create("chartdiv", am4maps.MapChart);
+
+  chart.responsive.enabled = true;
 
   // Set map definition
 
@@ -84,6 +91,18 @@ function App() {
   polygonTemplate.nonScalingStroke = true;
   polygonTemplate.strokeWidth = 0.5;
 
+  polygonTemplate.events.on("hit", function (event) {
+    event.target.zIndex = 1000000;
+    // selectPolygon(event.target);
+   
+    let pop = event.target.dataItem.dataContext.value;
+   let prov = event.target.dataItem.dataContext.name;
+   dispatch(clickGet(prov, pop))
+    
+  })
+
+  
+
   // Create hover state and set alternative fill color
   let hs = polygonTemplate.states.create("hover");
   hs.properties.fill = chart.colors.getIndex(1).brighten(-0.5);
@@ -102,6 +121,7 @@ function App() {
         https://github.com/bapex/react-amcharts-map/blob/master/src/App.js
       </p>
       <h1>{dataDesc}</h1>
+      <DataTable />
     </div>
   );
 }
