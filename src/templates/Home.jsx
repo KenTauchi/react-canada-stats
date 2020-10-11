@@ -87,7 +87,8 @@ function App() {
 
   // Configure series tooltip
   let polygonTemplate = polygonSeries.mapPolygons.template;
-  polygonTemplate.tooltipText = "{name}: {value}";
+  // polygonTemplate.tooltipText = "{name}: {value}";
+  polygonTemplate.tooltipText = "{name}";
   polygonTemplate.nonScalingStroke = true;
   polygonTemplate.strokeWidth = 0.5;
 
