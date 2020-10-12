@@ -8,6 +8,7 @@ import { DataSetReducer } from "../dataSet/reducers";
 
 
 import thunk from "redux-thunk";
+import { DataTableReducer } from "../dataTable/reducers";
 
 
 export default function createStore(history) {
@@ -15,6 +16,7 @@ export default function createStore(history) {
     combineReducers({
       router: connectRouter(history),
       dataSet: DataSetReducer,
+      dataTable: DataTableReducer
      
     }),
     applyMiddleware(routerMiddleware(history), thunk)

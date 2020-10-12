@@ -2,14 +2,14 @@ import React from "react";
 
 import DataTable from "../components/dataTable/DataTable"
 import { useDispatch, useSelector } from "react-redux";
-import { getDesc, getData } from "../reducks/dataSet/selectors"
+import { getDataSet } from "../reducks/dataSet/selectors"
 
 import {
   dataPopulationImport,
   dataDeathTollImport,
 } from "../reducks/dataSet/operations";
 
-import { clickGet } from "../reducks/dataSet/action"
+import { clickGet } from "../reducks/dataTable/action"
 
 
 import * as am4core from "@amcharts/amcharts4/core";
@@ -18,18 +18,22 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import am4geodata_region_canada from "@amcharts/amcharts4-geodata/canadaLow"
 
 am4core.useTheme(am4themes_animated);
+am4core.options.autoDispose = true;
+
 
 function App() {
   const dispatch = useDispatch();
   const selector = useSelector((state) => state);
 // you access to the current state with this Hooks.
 
-  const dataDesc = getDesc(selector);
-  const dataData = getData(selector);
+  const dataSet = getDataSet(selector);
+  
   console.log(selector);
 
   // Create map instance
   let chart = am4core.create("chartdiv", am4maps.MapChart);
+
+  chart.dataSource.updateCurrentData = true
 
   chart.responsive.enabled = true;
 
@@ -51,7 +55,7 @@ function App() {
 
   // Create map polygon series
   let polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
-  polygonSeries.data = dataData;
+  polygonSeries.data = dataSet.data;
 
   //Set min/max fill color for each area
   polygonSeries.heatRules.push({
@@ -99,12 +103,11 @@ function App() {
   polygonTemplate.events.on("hit", function (event) {
     // event.target.zIndex = 1000000;
     // selectPolygon(event.target);
-   
     let id = event.target.dataItem.dataContext.id;
-   let prov = event.target.dataItem.dataContext.name;
-//  console.log(event.target.dataItem)
-   dispatch(clickGet(id, prov))
-    
+   let province = event.target.dataItem.dataContext.name;
+   let found = dataSet.data.find(prov => prov.id === id)
+   let population = found.value
+   dispatch(clickGet(province, population));
   })
 
   
@@ -128,7 +131,7 @@ function App() {
         amChart Source:
         https://github.com/bapex/react-amcharts-map/blob/master/src/App.js
       </p>
-      <h1>{dataDesc}</h1>
+      <h1>{dataSet.desc}</h1>
       <DataTable />
     </div>
   );
