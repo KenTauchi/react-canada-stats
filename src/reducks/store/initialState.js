@@ -1,12 +1,11 @@
 const initialState = {
   dataSet: {
     desc: "Please click the button to show data",
-    data: "",
-  },
-  dataTable:{
+    data: [],
     province: "",
-    population: "",
-  }
+    population:""
+  },
+
 };
 
 export default initialState;

@@ -2,7 +2,7 @@ import React from 'react';
 
 import "./dataTable.scss"
 import { useSelector } from "react-redux";
-import { getProv, getPop } from "../../reducks/tableData/selectors"
+import { getProv, getPop } from "../../reducks/dataSet/selectors"
 
 const DataTable = () => {
     const selector = useSelector((state) => state);

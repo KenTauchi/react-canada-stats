@@ -5,7 +5,7 @@ import {
 } from "redux";
 import { connectRouter, routerMiddleware } from "connected-react-router";
 import { DataSetReducer } from "../dataSet/reducers";
-import { getClickReducer } from "../tableData/reducers";
+
 
 import thunk from "redux-thunk";
 
@@ -15,7 +15,7 @@ export default function createStore(history) {
     combineReducers({
       router: connectRouter(history),
       dataSet: DataSetReducer,
-      dataTable: getClickReducer
+     
     }),
     applyMiddleware(routerMiddleware(history), thunk)
   );

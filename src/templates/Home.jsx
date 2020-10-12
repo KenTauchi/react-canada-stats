@@ -9,12 +9,13 @@ import {
   dataDeathTollImport,
 } from "../reducks/dataSet/operations";
 
-import { clickGet } from "../reducks/tableData/action"
+import { clickGet } from "../reducks/dataSet/action"
 
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import am4geodata_region_canada from "@amcharts/amcharts4-geodata/canadaLow"
 
 am4core.useTheme(am4themes_animated);
 
@@ -34,20 +35,23 @@ function App() {
 
   // Set map definition
 
-  chart.geodataSource.url =
-    "https://www.amcharts.com/lib/4/geodata/json/canadaLow.json";
+  // chart.geodataSource.url =
+  //   "https://www.amcharts.com/lib/4/geodata/json/canadaLow.json";
 
-  let data = dataData;
+    try {
+      chart.geodata = am4geodata_region_canada;
+    }
+    catch (e) {
+      chart.raiseCriticalError(new Error("Map geodata could not be loaded. Please download the latest <a href=\"https://www.amcharts.com/download/download-v4/\">amcharts geodata</a> and extract its contents into the same directory as your amCharts files."));
+    }
 
-  chart.geodataSource.events.on("parseended", function (ev) {
-    polygonSeries.data = data;
-  });
-
+  
   // Set projection
   chart.projection = new am4maps.projections.Mercator();
 
   // Create map polygon series
   let polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+  polygonSeries.data = dataData;
 
   //Set min/max fill color for each area
   polygonSeries.heatRules.push({
@@ -93,12 +97,13 @@ function App() {
   polygonTemplate.strokeWidth = 0.5;
 
   polygonTemplate.events.on("hit", function (event) {
-    event.target.zIndex = 1000000;
+    // event.target.zIndex = 1000000;
     // selectPolygon(event.target);
    
-    let pop = event.target.dataItem.dataContext.value;
+    let id = event.target.dataItem.dataContext.id;
    let prov = event.target.dataItem.dataContext.name;
-   dispatch(clickGet(prov, pop))
+//  console.log(event.target.dataItem)
+   dispatch(clickGet(id, prov))
     
   })
 
@@ -111,7 +116,9 @@ function App() {
   return (
     <div>
       <div id="chartdiv" style={{ width: "80%", height: "400px" }}></div>
-      <button onClick={() => dispatch(dataPopulationImport())}>
+      <button onClick={() => {
+        dispatch(dataPopulationImport())
+      }}>
         Show Poplulation Map
       </button>
       <button onClick={() => dispatch(dataDeathTollImport())}>
